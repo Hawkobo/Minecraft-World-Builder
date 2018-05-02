@@ -3,8 +3,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL11.*;
 
