@@ -33,13 +33,14 @@ public class Basic3D
         }
         }
         Display.setDisplayMode(displayMode);
-        Display.setTitle("Hey Mom! I am using OpenGL!!!");
+        Display.setTitle("THE NEW MINECRAFT");
         Display.create();
     }
     
     private void initGL() 
     {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glEnable(GL_TEXTURE_2D);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/(float)
