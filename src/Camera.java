@@ -151,6 +151,7 @@ public class Camera
             {
                 camera.moveUp(movementSpeed);
             }
+          
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 camera.moveDown(movementSpeed);
@@ -233,5 +234,3 @@ public class Camera
         }
     }
 }
-    
-
