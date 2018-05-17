@@ -7,7 +7,7 @@ import org.lwjgl.Sys;
 
 public class Camera 
 {
-        //3d vector to store the camera's position in
+    //3d vector to store the camera's position in
     private Vector3f position = null;
     private Vector3f lPosition = null;
     //the rotation around the Y axis of the camera
@@ -151,7 +151,8 @@ public class Camera
             {
                 camera.moveUp(movementSpeed);
             }
-            if (Keyboard.isKeyDown(Keyboard.KEY_E))
+          
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 camera.moveDown(movementSpeed);
             }
