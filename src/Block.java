@@ -1,9 +1,7 @@
 public class Block {
-    private boolean IsActive
-            ;
+    private boolean IsActive;
     private BlockType Type;
-    private float x,y,z
-            ;
+    private float x,y,z;
     public enum BlockType
     {
         BlockType_Grass(0),
@@ -14,17 +12,14 @@ public class Block {
         BlockType_Bedrock(5),
         BlockType_Default(6);
         private int BlockID;
-        BlockType
-                (int i) {
-            BlockID
-                    =i;
+        BlockType (int i) {
+            BlockID=i;
         }
         public int GetID(){
-            return BlockID
-                    ;
+            return BlockID;
         }
-        public void SetID
-                (int i){
+        public void SetID (int i)
+        {
             BlockID = i;
         }
     }

@@ -5,14 +5,15 @@ import org.lwjgl.util.glu.GLU;
 
 public class Basic3D 
 {
-    private Camera fp = new Camera(0f,0f,0f);
+    private Camera fp;
     private DisplayMode displayMode;
     public void start() 
     {
     try {
         createWindow();
         initGL();
-        fp.gameLoop();//render();
+        fp = new Camera(0f,0f,0f);
+        fp.gameLoop();
         } catch (Exception e) {
         e.printStackTrace();
         }
@@ -36,10 +37,14 @@ public class Basic3D
         Display.create();
     }
     
-    private void initGL() 
-    {
+    private void initGL() {
         glEnable(GL_TEXTURE_2D);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState (GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glEnable(GL_DEPTH_TEST);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/(float)

@@ -16,6 +16,8 @@ public class Camera
     private float pitch = 0.0f;
     //private Vector3Float me;
     
+    private Chunk c = new Chunk(-75,0,-75);
+    
     public Camera(float x, float y, float z)
     {
         //instantiate position Vector3f to the x y z params.
@@ -100,7 +102,7 @@ public class Camera
 
     public void gameLoop()
     {
-        Camera camera = new Camera(0, 0, 0);
+        Camera camera = new Camera(5, 5, 5);
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f; //length of frame
@@ -161,7 +163,8 @@ public class Camera
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //you would draw your scene here.
-            render();
+            //render();
+            c.render();
             //draw the buffer to the screen
             Display.update();
             Display.sync(60);
