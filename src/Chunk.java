@@ -51,21 +51,21 @@ public class Chunk {
         FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
         FloatBuffer VertexColorData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
         FloatBuffer VertexTextureData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
-        
-      
+
+
         float height;
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
                 // Height randomized
                 int i = (int) (startX + x * ((300 - startX) / 640));
-                int j = (int) (startZ + z * ((300 - startZ) / 480));        
+                int j = (int) (startZ + z * ((300 - startZ) / 480));
                 height = 1+Math.abs((startY + (int) (100 * noise.getNoise(i, j))* CUBE_LENGTH));
-                         
-                for (float y = 0; y <= height; y++) {                   
+                Blocks[(int)x][(int)height][(int)z] = Blocks[(int)x][CHUNK_SIZE - 1][(int)z];
+                for (float y = 0; y <= height; y++) {
                     VertexPositionData.put(createCube((startX + x * CUBE_LENGTH), (y * CUBE_LENGTH + (float) (CHUNK_SIZE * -1.0)),(startZ + z * CUBE_LENGTH) + (float) (CHUNK_SIZE * 1.5)));
                     VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[(int) x][(int) y][(int) z])));
                     VertexTextureData.put(createTexCube(0, 0, Blocks[(int)x][(int)y][(int)z]));
-                  
+
                 }
             }
         }
@@ -143,34 +143,41 @@ public class Chunk {
         catch(Exception e){
             System.out.print("ER-ROAR!");
         }
-        
+
         r= new Random();
         Blocks = new
-        Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+                Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int y = 0; y < CHUNK_SIZE; y++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
-                    if(r.nextFloat()>0.8f){
+                    if (y == 0) {
                         Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Grass);
-                    }else if(r.nextFloat()>0.6f){
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Dirt);
-                    }else if(r.nextFloat()>0.4f){
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Water);
-                    }else if(r.nextFloat()>0.2f){
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Stone);
-                    }else if(r.nextFloat()>0.1f){
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Bedrock);
-                    }else if(r.nextFloat()>0.0f){
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Sand);
-                    }else{
-                        Blocks[x][y][z] = new
-                        Block(Block.BlockType.BlockType_Default);
+                                Block(Block.BlockType.BlockType_Bedrock);
+                    }else if(y == CHUNK_SIZE - 1) {
+                        if (r.nextFloat() > 0.6f) {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Grass);
+                        } else if (r.nextFloat() > 0.3f) {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Water);
+                        } else if (r.nextFloat() >= 0.0f) {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Sand);
+                        } else {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Default);
+                        }
+                    }else {
+                        if (r.nextFloat() > 0.5f) {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Stone);
+                        } else if (r.nextFloat() >= 0.0f){
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Dirt);
+                        } else {
+                            Blocks[x][y][z] = new
+                                    Block(Block.BlockType.BlockType_Default);
+                        }
                     }
                 }
             }

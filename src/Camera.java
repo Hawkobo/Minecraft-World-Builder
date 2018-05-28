@@ -121,10 +121,10 @@ public class Camera
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         //translate to the position vector's location
         glTranslatef(position.x, position.y, position.z);
-        /*
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);*/
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     public void gameLoop()
