@@ -1,5 +1,3 @@
-
-
 import java.nio.FloatBuffer;
 import java.util.Random;
 import org.lwjgl.BufferUtils;

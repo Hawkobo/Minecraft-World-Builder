@@ -1,5 +1,3 @@
-
-
 public class Block {
     private boolean IsActive;
     private BlockType Type;

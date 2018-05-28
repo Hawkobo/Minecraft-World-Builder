@@ -1,5 +1,3 @@
-
-
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -12,15 +10,17 @@ import org.lwjgl.Sys;
 public class Camera 
 {
     //3d vector to store the camera's position in
+
     private Vector3f position;
     private Vector3f lPosition;
+
     //the rotation around the Y axis of the camera
     private float yaw = 0.0f;
     //the rotation around the X axis of the camera
     private float pitch = 0.0f;
     //private Vector3Float me;
     //FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-    
+
     
     private Chunk c = new Chunk(-75,0,-75);
     
@@ -31,6 +31,7 @@ public class Camera
         lPosition = new Vector3f(x,y,z);
         lPosition.x = 0f;
         lPosition.y = 0f;
+
         lPosition.z = 0f;
     }
     
@@ -67,7 +68,6 @@ public class Camera
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x += xOffset;
         position.z -= zOffset;
-        
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(lPosition.x-=xOffset).put(
         lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
@@ -104,7 +104,6 @@ public class Camera
     public void moveUp(float distance)
     {
         position.y -= distance;
-        
     }
     //moves the camera down
     public void moveDown(float distance)
@@ -122,7 +121,6 @@ public class Camera
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         //translate to the position vector's location
         glTranslatef(position.x, position.y, position.z);
-        
         /*
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
@@ -196,7 +194,7 @@ public class Camera
             //render();
             c.render();
             //draw the buffer to the screen
-            
+
             Display.update();
             Display.sync(60);
         }

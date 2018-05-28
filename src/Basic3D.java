@@ -1,5 +1,3 @@
-﻿
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -14,6 +12,7 @@ public class Basic3D
     private DisplayMode displayMode;
     public FloatBuffer lightPosition;
     public FloatBuffer whiteLight;
+
     public void start() 
     {
     try {
@@ -51,7 +50,9 @@ public class Basic3D
         glEnableClientState(GL_COLOR_ARRAY);
         glEnable(GL_DEPTH_TEST);
 
+
         glClearColor(0.196078f, 0.6f, 0.8f, 0.1f);
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         GLU.gluPerspective(100.0f, (float)displayMode.getWidth()/(float)
