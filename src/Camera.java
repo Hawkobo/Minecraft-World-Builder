@@ -3,18 +3,24 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 
 public class Camera 
 {
     //3d vector to store the camera's position in
-    private Vector3f position = null;
-    private Vector3f lPosition = null;
+
+    private Vector3f position;
+    private Vector3f lPosition;
+
     //the rotation around the Y axis of the camera
     private float yaw = 0.0f;
     //the rotation around the X axis of the camera
     private float pitch = 0.0f;
     //private Vector3Float me;
+    //FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+
     
     private Chunk c = new Chunk(-75,0,-75);
     
@@ -24,7 +30,8 @@ public class Camera
         position = new Vector3f(x, y, z);
         lPosition = new Vector3f(x,y,z);
         lPosition.x = 0f;
-        lPosition.y = 15f;
+        lPosition.y = 0f;
+
         lPosition.z = 0f;
     }
     
@@ -48,6 +55,10 @@ public class Camera
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x -= xOffset;
         position.z += zOffset;
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x-=xOffset).put(
+        lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
         
     //moves the camera backward relative to its current rotation (yaw)
@@ -57,6 +68,10 @@ public class Camera
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x += xOffset;
         position.z -= zOffset;
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x-=xOffset).put(
+        lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     //strafes the camera left relative to its current rotation (yaw)
@@ -66,6 +81,10 @@ public class Camera
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw-90));
         position.x -= xOffset;
         position.z += zOffset;
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x-=xOffset).put(
+        lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     //strafes the camera right relative to its current rotation (yaw)
@@ -75,6 +94,10 @@ public class Camera
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw+90));
         position.x -= xOffset;
         position.z += zOffset;
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x-=xOffset).put(
+        lPosition.y).put(lPosition.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     //moves the camera up relative to its current rotation (yaw)
@@ -98,18 +121,22 @@ public class Camera
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         //translate to the position vector's location
         glTranslatef(position.x, position.y, position.z);
+        /*
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);*/
     }
 
     public void gameLoop()
     {
-        Camera camera = new Camera(5, 5, 5);
+        Camera camera = new Camera(0, 0, 0);
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f; //length of frame
         float lastTime = 0.0f; // when the last frame was
         long time = 0;
         float mouseSensitivity = 0.09f;
-        float movementSpeed = .1f;
+        float movementSpeed = .5f;
         
         //hide the mouse
         Mouse.setGrabbed(true);
@@ -167,73 +194,11 @@ public class Camera
             //render();
             c.render();
             //draw the buffer to the screen
+
             Display.update();
             Display.sync(60);
         }
         
         Display.destroy();
-    }
-    
-    private void render() 
-    {
-        try
-        {   
-            //top
-            glBegin(GL_QUADS);
-            glColor3f(1, 0, 0);
-            glVertex3f( 1.0f, 1.0f,-1.0f);
-            glVertex3f(-1.0f, 1.0f,-1.0f);
-            glVertex3f(-1.0f, 1.0f, 1.0f);
-            glVertex3f( 1.0f, 1.0f, 1.0f); 
-            glEnd();
-            
-            //Bottom
-            glBegin(GL_QUADS);
-            glColor3f(9, 3, 89);
-            glVertex3f( 1.0f,-1.0f, 1.0f);
-            glVertex3f(-1.0f,-1.0f, 1.0f);
-            glVertex3f(-1.0f,-1.0f,-1.0f);
-            glVertex3f( 1.0f,-1.0f,-1.0f);
-            glEnd();
-            
-            //Front
-            glBegin(GL_QUADS);
-            glColor3f(30, 9, 5);
-            glVertex3f( 1.0f, 1.0f, 1.0f);
-            glVertex3f(-1.0f, 1.0f, 1.0f);
-            glVertex3f(-1.0f,-1.0f, 1.0f);
-            glVertex3f( 1.0f,-1.0f, 1.0f);
-            glEnd();
-            
-            //Back
-            glBegin(GL_QUADS);
-            glColor3f(16, 4, 9);
-            glVertex3f( 1.0f,-1.0f,-1.0f);
-            glVertex3f(-1.0f,-1.0f,-1.0f);
-            glVertex3f(-1.0f, 1.0f,-1.0f);
-            glVertex3f( 1.0f, 1.0f,-1.0f);
-            glEnd();
-            
-            //Left
-            glBegin(GL_QUADS);
-            glColor3f(3, 9, 8);
-            glVertex3f(-1.0f, 1.0f,1.0f);
-            glVertex3f(-1.0f, 1.0f,-1.0f);
-            glVertex3f(-1.0f,-1.0f,-1.0f);
-            glVertex3f(-1.0f,-1.0f, 1.0f);
-            glEnd();
-
-            //Right
-            glBegin(GL_QUADS);
-            glColor3f(1, 3, 5);
-            glVertex3f( 1.0f, 1.0f,-1.0f);
-            glVertex3f( 1.0f, 1.0f, 1.0f);
-            glVertex3f( 1.0f,-1.0f, 1.0f);
-            glVertex3f( 1.0f,-1.0f,-1.0f);
-            glEnd();
-
-            
-        }catch(Exception e){
-        }
     }
 }
